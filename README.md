@@ -1,6 +1,8 @@
-# my-project
+# Readhub
 
-> A Vue.js project
+一个基于vue.js的项目
+
+一个仿readhub的webapp。试用于移动端。
 
 ## Build Setup
 
