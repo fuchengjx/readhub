@@ -1,6 +1,6 @@
 <template>
     <div class="itemList">
-       <div class="table" v-for="item of huati" :key="item.id">
+       <div class="table" v-for="item of huati">
          <a class="item-a" :href="item.newsArray[0].url">
            <p class="item-title">{{item.title}}</p>
            <p class="item-summary">{{item.summary}}</p>

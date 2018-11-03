@@ -1,5 +1,6 @@
 <template>
-  <div class="itemList">
+  <!--开发者内容渲染-->
+  <div class="itemList" v-if="kaifa.length">
     <div class="table" v-for="item of kaifa" :key="item.id">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
@@ -8,6 +9,11 @@
         <span class="item-name">{{item.siteName}}</span>
       </a>
     </div>
+
+    <div class="more">
+      <a href="#">加载更多</a>
+    </div>
+
   </div>
 </template>
 
