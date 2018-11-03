@@ -2,7 +2,9 @@
 
 一个基于vue.js的项目
 
-一个仿readhub的webapp。试用于移动端。
+一个仿readhub的webapp。适用于移动端。
+
+
 
 ## Build Setup
 

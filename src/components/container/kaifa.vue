@@ -1,17 +1,13 @@
 <template>
   <!--开发者内容渲染-->
-  <div class="itemList" v-if="kaifa.length">
-    <div class="table" v-for="item of kaifa" :key="item.id">
+  <div class="itemList">
+    <div class="table" v-for="item of kaifa">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
         <p class="item-summary">{{item.summaryAuto}}</p>
         <span class="item-name">{{item.autherName}}</span>
         <span class="item-name">{{item.siteName}}</span>
       </a>
-    </div>
-
-    <div class="more">
-      <a href="#">加载更多</a>
     </div>
 
   </div>
@@ -21,7 +17,7 @@
     export default {
         name: "kaifa",
         props:{
-          kaifa:Array,
+          kaifa:Array
         }
     }
 </script>

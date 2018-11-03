@@ -1,6 +1,6 @@
 <template>
-  <div class="itemList" v-if="keji.length">
-    <div class="table" v-for="item of keji" :key="item.id">
+  <div class="itemList">
+    <div class="table" v-for="item of keji">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
         <p class="item-summary">{{item.summaryAuto}}</p>
@@ -8,9 +8,7 @@
         <span class="item-name">{{item.siteName}}</span>
       </a>
     </div>
-    <div class="more">
-      <a href="#">加载更多</a>
-    </div>
+
   </div>
 </template>
 
@@ -18,8 +16,23 @@
     export default {
         name: "keji",
         props:{
-          keji:Array,
+          keji:Array
         },
+      data(){
+        return{
+          show:false,
+        }
+      },
+      methods:{
+          showData(){
+           this.show=this.keji;
+          }
+      },
+      mounted(){
+          // console.log(this.keji.length)
+          // console.log(this.keji)
+          this.showData();
+      }
     }
 </script>
 

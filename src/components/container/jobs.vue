@@ -1,10 +1,10 @@
 <template>
-    <div v-if="jobs.length" class="itemList">
+    <div v-show="jobs.length" class="itemList">
       <div class="today">
         <span>今天</span>
       </div>
       <!--详细工作内容栏-->
-      <div class="table" v-for="item of jobs" :key="item.id" @click="showList">
+      <div class="table" v-for="item of jobs"  @click="showList">
         <p class="item-title">{{item.jobTitle}}</p>
         <p class="jobsTitle">{{item.jobsArray[0].title}} · {{item.jobsArray[1].title}} · {{item.jobsArray[2].title}} · {{item.jobsArray[3].title}}</p>
         <p class="jobsContent">北京、上海等地更新了{{item.jobCount}}个职位，待遇集中在
@@ -58,9 +58,6 @@
           </a>
         </div>
 
-      </div>
-      <div class="more">
-        <a href="#">加载更多</a>
       </div>
 
     </div>

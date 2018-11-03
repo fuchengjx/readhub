@@ -1,16 +1,13 @@
 <template>
-  <div class="itemList"  v-if="qukuai.length">
+  <div class="itemList">
     <!--区块链内容渲染-->
-    <div class="table" v-for="item of qukuai" :key="item.id">
+    <div class="table" v-for="item of qukuai">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
         <p class="item-summary">{{item.summaryAuto}}</p>
         <span class="item-name">{{item.autherName}}</span>
         <span class="item-name">{{item.siteName}}</span>
       </a>
-    </div>
-    <div class="more">
-      <a href="#">加载更多</a>
     </div>
   </div>
 </template>

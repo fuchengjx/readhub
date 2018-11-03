@@ -4,22 +4,22 @@
       <swiper>
         <swiper-slide>
           <router-link to="/container/huati">
-            <div @click="gethuatiInfo" class="nav-tittle">热门话题</div>
+            <div @click="gethuatiInfo" class="nav-title">热门话题</div>
           </router-link>
           <router-link to="/container/keji">
-            <div @click="getkejiInfo" class="nav-tittle">科技话题</div>
+            <div @click="getkejiInfo" class="nav-title">科技话题</div>
           </router-link>
           <router-link to="/container/kaifa">
-            <div @click="getkaifaInfo" class="nav-tittle">开发者咨询</div>
+            <div @click="getkaifaInfo" class="nav-title">开发者咨询</div>
           </router-link>
           <router-link to="/container/qukuai">
-            <div @click="getqukuaiInfo" class="nav-tittle">区块链快捷</div>
+            <div @click="getqukuaiInfo" class="nav-title">区块链快捷</div>
           </router-link>
         </swiper-slide>
 
         <swiper-slide>
           <router-link to="/container/jobs">
-            <div @click="getjobsInfo" class="nav-tittle">招聘行情</div>
+            <div @click="getjobsInfo" class="nav-title">招聘行情</div>
           </router-link>
         </swiper-slide>
       </swiper>
@@ -30,6 +30,9 @@
       <qukuai :qukuai="qukuaiData"></qukuai>
       <jobs :jobs="jobsData"></jobs>
 
+      <div class="more">
+        <a href="#">加载更多</a>
+      </div>
     </div>
 
 
@@ -62,6 +65,10 @@
 
           scroll:'',
           order:'',
+          kejiDate:'',
+          kaifaDate:'',
+          qukuaiDate:'',
+          jobsDate:'',
         }
       },
       methods: {
@@ -73,10 +80,25 @@
           {
              console.log('滚动条已滚动到底部');
             if(this.huatiData.length!==0){
+              //只有huatiData的长度不为零，才会继续发送带参数的ajax请求。
               //解决其他页面滑动到底部也会加载huatidata的bug
               this.gethuatiInfo();
             }
+            if(this.kejiData.length!==0){
+              this.getkejiInfo();
+            }
+            if(this.kaifaData.length!==0){
+              this.getkaifaInfo();
+            }
+            if(this.qukuaiData.length!==0){
+              this.getqukuaiInfo();
+            }
+            if (this.jobsData.length!==0){
+              this.getjobsInfo();
+            }
+
           }
+
         },
 
         gethuatiInfo() {
@@ -87,6 +109,7 @@
           res = res.data
           if (res) {
             if(this.huatiData.length){
+              //将获取到的新数组一个一个添加到huatiData数组中，方便子组件动态渲染。
               for(let i=0;i<res.data.length;i++){
                 this.huatiData.push(res.data[i])
               }
@@ -101,26 +124,49 @@
           }
         },
         getkejiInfo() {
-          axios.get('https://api.readhub.cn/news?lastCursor=&pageSize=20').then(this.getkejiSucc)
+          axios.get('https://api.readhub.cn/news?lastCursor='+this.kejiDate+'&pageSize=10').then(this.getkejiSucc)
         },
         getkejiSucc(res) {
           res = res.data
+          let j=0;
           if (res.data) {
-            this.kejiData = res.data
+            if(this.kejiData.length){
+              for(let i=0;i<res.data.length;i++){
+                this.kejiData.push(res.data[i])
+              }
+              //没遍历一次数组j++,找返回数组里的最后一个时间，更为准确。
+              j=j+1;
+            }else {
+              this.kejiData=res.data;
+            }
+            //获取返回数据里的时间，将起转化为时间戳，作为ajax参数，继续请求。
+            let strtime=res.data[j*10+9].publishDate;
+            this.kejiDate=Date.parse(strtime);
             // console.log(this.kejidata)
             this.huatiData=[];
             this.kaifaData=[];
             this.qukuaiData=[];
             this.jobsData=[];
+
           }
         },
         getkaifaInfo() {
-          axios.get('https://api.readhub.cn/technews?lastCursor=&pageSize=20').then(this.getkaifaSucc)
+          axios.get('https://api.readhub.cn/technews?lastCursor='+this.kaifaDate+'&pageSize=10').then(this.getkaifaSucc)
         },
         getkaifaSucc(res) {
           res = res.data
+          let j=0;
           if (res.data) {
-            this.kaifaData=res.data
+            if(this.kaifaData.length){
+              for(let i=0;i<res.data.length;i++){
+                this.kaifaData.push(res.data[i])
+              }
+              j=j+1;
+            }else {
+              this.kaifaData=res.data
+            }
+            let strtime=res.data[j*10+9].publishDate;
+            this.kaifaDate=Date.parse(strtime);
 
             this.huatiData=[];
             this.kejiData=[];
@@ -129,12 +175,23 @@
           }
         },
         getqukuaiInfo() {
-          axios.get('https://api.readhub.cn/blockchain?lastCursor=&pageSize=20').then(this.getkaifaSucc)
+          axios.get('https://api.readhub.cn/blockchain?lastCursor='+this.qukuaiDate+'&pageSize=10').then(this.getkaifaSucc)
         },
         getqukuaiSucc(res) {
           res = res.data
+          let j=0;
           if (res.data) {
-            this.qukuaiData=res.data
+            if(this.qukuaiData.length){
+              for(let i=0;i<res.data.length;i++){
+                this.qukuaiData.push(res.data[i])
+              }
+              j=j+1;
+            }else {
+              this.qukuaiData=res.data
+            }
+            let strtime=res.data[j*10+9].publishDate;
+            this.qukuaiDate=Date.parse(strtime);
+
             this.huatiData=[];
             this.kaifaData=[];
             this.kejiData=[];
@@ -142,12 +199,23 @@
           }
         },
         getjobsInfo() {
-          axios.get('https://api.readhub.cn/jobs?lastCursor=&pageSize=10').then(this.getjobsSucc)
+          axios.get('https://api.readhub.cn/jobs?lastCursor='+this.jobsDate+'&pageSize=10').then(this.getjobsSucc)
         },
         getjobsSucc(res) {
           res = res.data
+          let j=0;
           if (res.data) {
-            this.jobsData=res.data
+            if(this.jobsData.length){
+              for(let i=0;i<res.data.length;i++){
+                this.jobsData.push(res.data[i])
+              }
+              j=j+1;
+            }else {
+              this.jobsData=res.data
+            }
+            let strtime=res.data[j*10+9].publishDate;
+            this.jobsDate=Date.parse(strtime);
+
             this.huatiData=[];
             this.kaifaData=[];
             this.qukuaiData=[];
@@ -159,7 +227,8 @@
       },
       mounted(){
         this.gethuatiInfo();
-          window.addEventListener('scroll', this.menu);
+        //全局绑定scroll事件，只要有滚动，就执行men函数
+        window.addEventListener('scroll', this.menu);
       }
 
   }
@@ -172,7 +241,7 @@
     max-width:420px ;
     overflow: hidden;
   }
-  .nav-tittle{
+  .nav-title{
     display: inline-block;
     height: 60px;
     width: 23%;
@@ -181,7 +250,9 @@
     text-align: center;
     color: #737373;
   }
-
+  .nav-title:hover{
+    color:#246394;
+  }
   /*全局加载更多css*/
   .more{
     height: 50px;
