@@ -1,8 +1,40 @@
 # Readhub
 
+## 简介
+
 一个基于vue.js的项目
 
 一个仿readhub的webapp。适用于移动端。
+
+## 页面
+
+
+
+![首页](http://github.com/fuchengjx/readhub/raw/master/imgaes/index.png)
+
+当你向下滚动时，滚动到底部时，将重新发送ajax（从上一次获取到的数组中获取到一个order值，这是axios请求中lastCursor的参数，如此循环，将能不断加载内容，）
+
+------
+
+![热门话题滚动时](http://github.com/fuchengjx/readhub/raw/master/images/topic-ajax.png)
+
+当滚动到页面底部时，将再次发送带参数的请求，返回的数组将被添加到huatiData中，然后将数据动态渲染到热门话题页面。
+
+------
+
+![科技话题滚动时](http://github.com/fuchengjx/readhub/raw/master/images/news-ajax.png)
+
+注意news的参数，是获取上一个数组的publishDate值，然后再转换成时间戳的形式。
+
+
+
+## 外部引用
+
+![外部引用](http://github.com/fuchengjx/readhub/raw/master/images/main.png)
+
+安装了better-scroll插件，实现了nav栏可以动态滑动。
+
+---------
 
 
 
