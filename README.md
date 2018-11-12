@@ -10,7 +10,7 @@
 
 
 
-![首页](http://github.com/fuchengjx/readhub/raw/master/imgaes/index.png)
+![首页](http://github.com/fuchengjx/readhub/raw/master/images/index.png)
 
 当你向下滚动时，滚动到底部时，将重新发送ajax（从上一次获取到的数组中获取到一个order值，这是axios请求中lastCursor的参数，如此循环，将能不断加载内容，）
 
