@@ -1,6 +1,6 @@
 <template>
 
-    <div class="wrapper">
+    <div class="wrapper"  id="top">
       <swiper>
         <swiper-slide>
           <router-link to="/container/huati">
@@ -29,6 +29,7 @@
       <kaifa :kaifa="kaifaData"></kaifa>
       <qukuai :qukuai="qukuaiData"></qukuai>
       <jobs :jobs="jobsData"></jobs>
+
 
       <div class="more">
         <a href="#">加载更多</a>
@@ -63,41 +64,49 @@
           qukuaiData: [],
           jobsData: [],
 
-          scroll:'',
           order:'',
           kejiDate:'',
           kaifaDate:'',
           qukuaiDate:'',
           jobsDate:'',
+
+          tur:true, //解决滚动条滚动到底部，ajax请求事件多次执行的bug， 条件判断+延迟执行    在事件执行之初，复活变量，事件执行完毕后 杀死变量。
         }
       },
       methods: {
         // 滚动条到底部改变ajax请求的参数，加载更多。
         menu(){
-          // console.log(window.screen.height + document.documentElement.scrollTop)
-          // console.log('CH'+document.body.clientHeight)
-          if(window.screen.height + document.documentElement.scrollTop>=document.body.clientHeight-1)
-          {
-             console.log('滚动条已滚动到底部');
-            if(this.huatiData.length!==0){
-              //只有huatiData的长度不为零，才会继续发送带参数的ajax请求。
-              //解决其他页面滑动到底部也会加载huatidata的bug
-              this.gethuatiInfo();
-            }
-            if(this.kejiData.length!==0){
-              this.getkejiInfo();
-            }
-            if(this.kaifaData.length!==0){
-              this.getkaifaInfo();
-            }
-            if(this.qukuaiData.length!==0){
-              this.getqukuaiInfo();
-            }
-            if (this.jobsData.length!==0){
-              this.getjobsInfo();
-            }
+          if(this.tur){
+            setTimeout(()=>{
+              if(Math.ceil(window.screen.height + document.documentElement.scrollTop)>=document.body.clientHeight)
+              {
+                console.log('滚动条已滚动到底部');
+                if(this.huatiData.length!==0){
+                  //只有huatiData的长度不为零，才会继续发送带参数的ajax请求。
+                  //解决其他页面滑动到底部也会加载huatidata的bug
+                  this.gethuatiInfo();
+                }
+                if(this.kejiData.length!==0){
+                  this.getkejiInfo();
+                }
+                if(this.kaifaData.length!==0){
+                  this.getkaifaInfo();
+                }
+                if(this.qukuaiData.length!==0){
+                  this.getqukuaiInfo();
+                }
+                if (this.jobsData.length!==0){
+                  this.getjobsInfo();
+                }
+
+              }
+              this.tur=true;
+            },500)
 
           }
+          // console.log(window.screen.height + document.documentElement.scrollTop)
+          // console.log('CH'+document.body.clientHeight)
+                this.tur=false
 
         },
 
@@ -110,7 +119,7 @@
           if (res) {
             if(this.huatiData.length){
               //将获取到的新数组一个一个添加到huatiData数组中，方便子组件动态渲染。
-              for(let i=0;i<res.data.length;i++){
+              for (let i=0;i<res.data.length;i++){
                 this.huatiData.push(res.data[i])
               }
             }else {
@@ -128,19 +137,16 @@
         },
         getkejiSucc(res) {
           res = res.data
-          let j=0;
           if (res.data) {
             if(this.kejiData.length){
               for(let i=0;i<res.data.length;i++){
                 this.kejiData.push(res.data[i])
               }
-              //没遍历一次数组j++,找返回数组里的最后一个时间，更为准确。
-              j=j+1;
             }else {
               this.kejiData=res.data;
             }
             //获取返回数据里的时间，将起转化为时间戳，作为ajax参数，继续请求。
-            let strtime=res.data[j*10+9].publishDate;
+            let strtime=res.data[res.data.length-1].publishDate;
             this.kejiDate=Date.parse(strtime);
             // console.log(this.kejidata)
             this.huatiData=[];
@@ -155,17 +161,15 @@
         },
         getkaifaSucc(res) {
           res = res.data
-          let j=0;
           if (res.data) {
             if(this.kaifaData.length){
               for(let i=0;i<res.data.length;i++){
                 this.kaifaData.push(res.data[i])
               }
-              j=j+1;
             }else {
               this.kaifaData=res.data
             }
-            let strtime=res.data[j*10+9].publishDate;
+            let strtime=res.data[res.data.length-1].publishDate;
             this.kaifaDate=Date.parse(strtime);
 
             this.huatiData=[];
@@ -179,17 +183,15 @@
         },
         getqukuaiSucc(res) {
           res = res.data
-          let j=0;
           if (res.data) {
             if(this.qukuaiData.length){
               for(let i=0;i<res.data.length;i++){
                 this.qukuaiData.push(res.data[i])
               }
-              j=j+1;
             }else {
               this.qukuaiData=res.data
             }
-            let strtime=res.data[j*10+9].publishDate;
+            let strtime=res.data[res.data.length-1].publishDate;
             this.qukuaiDate=Date.parse(strtime);
 
             this.huatiData=[];
@@ -203,17 +205,15 @@
         },
         getjobsSucc(res) {
           res = res.data
-          let j=0;
           if (res.data) {
             if(this.jobsData.length){
               for(let i=0;i<res.data.length;i++){
                 this.jobsData.push(res.data[i])
               }
-              j=j+1;
             }else {
               this.jobsData=res.data
             }
-            let strtime=res.data[j*10+9].publishDate;
+            let strtime=res.data[res.data.length-1].publishDate;
             this.jobsDate=Date.parse(strtime);
 
             this.huatiData=[];
@@ -253,11 +253,13 @@
   .nav-title:hover{
     color:#246394;
   }
+
   /*全局加载更多css*/
   .more{
     height: 50px;
     line-height: 50px;
     text-align: center;
+    z-index: 999;
   }
   .more a{
     color:#8c8c8c;

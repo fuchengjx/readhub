@@ -7,7 +7,7 @@
       <div class="table" v-for="item of jobs"  @click="showList">
         <p class="item-title">{{item.jobTitle}}</p>
         <p class="jobsTitle">{{item.jobsArray[0].title}} · {{item.jobsArray[1].title}} · {{item.jobsArray[2].title}} · {{item.jobsArray[3].title}}</p>
-        <p class="jobsContent">北京、上海等地更新了{{item.jobCount}}个职位，待遇集中在
+        <p class="jobsContent">{{Object.keys(item.cities)[0]}}、{{Object.keys(item.cities)[1]}}等地更新了{{item.jobCount}}个职位，待遇集中在
           {{item.salaryLower}}-{{item.salaryUpper}}k,一般要求{{item.experienceLower}}
           -{{item.experienceUpper}}年经验</p>
       <!--点击后出现工作详情-->

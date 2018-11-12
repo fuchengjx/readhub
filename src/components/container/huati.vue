@@ -17,13 +17,6 @@
       props:{
           huati:Array,
       },
-      // mounted(){
-      //   console.log('mounted '+this.huati)
-      // },
-      // activated(){
-      //     console.log('activated'+this.huati)
-      // }
-      // }
     }
 </script>
 
