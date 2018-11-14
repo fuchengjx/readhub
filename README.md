@@ -34,9 +34,33 @@
 
 安装了better-scroll插件，实现了nav栏可以动态滑动。
 
+引用了字体图标（回到顶部）。
+
 ---------
 
+## 更新
 
+1.修复了滚动条滚动到底部同时触发多个ajax事件的bug（原来一旦将滚动条滚动到页面底部会一次性执行多个ajax请求，这些请求形成事件队列，会造成页面渲染出许多重复的元素），解决思路，采用了条件判断+延迟执行。
+
+```
+var tur=true;
+window.onsroll=function(){
+    if(tur){
+        setTimeout(()=>{
+        if(window.screen.height + document.documentElement.scrollTop>=document.body.clientHeight){
+              ajax(发送ajax请求);
+        }
+          tur=ture
+        },500)
+    },
+    ture=false;
+}
+// 在事件执行之初，复活变量，事件执行完毕后 杀死变量。
+```
+
+2.增加了一个back-top，当滚动条滑动到顶部时，“回到顶部”隐藏，当滚动条滑动到下方时，“回到顶部显示”。点击“回到顶部”页面将从新 定锚到顶部，实现快速回到顶部功能。
+
+3.更多功能以后期待
 
 ## Build Setup
 
