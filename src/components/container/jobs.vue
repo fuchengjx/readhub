@@ -4,14 +4,14 @@
         <span>今天</span>
       </div>
       <!--详细工作内容栏-->
-      <div class="table" v-for="item of jobs"  @click="showList">
+      <div class="table" v-for="(item,index) of jobs"  @click="showList(index)">
         <p class="item-title">{{item.jobTitle}}</p>
         <p class="jobsTitle">{{item.jobsArray[0].title}} · {{item.jobsArray[1].title}} · {{item.jobsArray[2].title}} · {{item.jobsArray[3].title}}</p>
         <p class="jobsContent">{{Object.keys(item.cities)[0]}}、{{Object.keys(item.cities)[1]}}等地更新了{{item.jobCount}}个职位，待遇集中在
           {{item.salaryLower}}-{{item.salaryUpper}}k,一般要求{{item.experienceLower}}
           -{{item.experienceUpper}}年经验</p>
       <!--点击后出现工作详情-->
-        <div class="jobs-list" v-if="show">
+        <div class="jobs-list" ref="jobsList">
           <a class="list-a" :href="item.jobsArray[0].url">
           <div class="list-title">
             <span>{{item.jobsArray[0].title}}</span> · <span>{{item.jobsArray[0].company}}</span>
@@ -75,15 +75,24 @@
           }
       },
       methods:{
-          showList:function () {
-            this.show=!this.show;
+          showList:function (index) {
+            // this.jobs[index]
+            // this.show=!this.show;
+            // this.jobListShow(index)
+            let lists = this.$refs.jobsList
+            for(let i = 0; i<lists.length ;i++){
+              lists[i].style.display = 'none'
+            }
+            lists[index].style.display = 'block'
           },
-
       },
     }
 </script>
 
 <style scoped>
+  .jobs-list{
+    display: none;
+  }
   .itemList{
     max-width: 420px;
     height: 100%;
