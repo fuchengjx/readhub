@@ -60,7 +60,32 @@ window.onsroll=function(){
 
 2.增加了一个back-top，当滚动条滑动到顶部时，“回到顶部”隐藏，当滚动条滑动到下方时，“回到顶部显示”。点击“回到顶部”页面将从新 定锚到顶部，实现快速回到顶部功能。
 
-3.更多功能以后期待
+3.修复了jobs.vue组件点击后 显示所有招聘工作详情的bug。运用js排他算法，在渲染的时候，将数据数组的(index)索引传入showList函数，当每次点击后，将所有的jobs-list disply设置为none，循环结束后，再把当前的jobs-list索引设置为block。就能做到点击后只显示当前点击的详情数据，其它的隐藏。这种思想比较常见于tab栏之类的应用。
+
+```js
+
+ <!--详细工作内容栏-->
+      <div class="table" v-for="(item,index) of jobs"  @click="showList(index)">
+     ...渲染模块...
+      <!--点击后出现工作详情-->
+        <div class="jobs-list" ref="jobsList">
+     
+showList:function (index) {
+  let lists = this.$refs.jobsList
+  for(let i = 0; i<lists.length ;i++){
+    lists[i].style.display = 'none'
+  }
+  lists[index].style.display = 'block'
+}
+注意vue的dom操作 ref标注的钩子不能使用短横线命名法，ref属性统一用驼峰命名法
+```
+
+`我们知道HTML中是不区分大小写的，因此在JS中使用的驼峰命名法，在HTML中应该改为短横线命名法。比如
+ boxAlpha=>box-alpha
+ 但是，使用`ref`标注的钩子不能使用短横线命名法，boxAlpha不等于box-alpha，在JS中用box-alpha也会报非法。所以，
+ ref属性统一使用驼峰命名法
+
+4.更多功能以后期待
 
 ## Build Setup
 
