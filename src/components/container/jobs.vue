@@ -76,9 +76,6 @@
       },
       methods:{
           showList:function (index) {
-            // this.jobs[index]
-            // this.show=!this.show;
-            // this.jobListShow(index)
             let lists = this.$refs.jobsList
             for(let i = 0; i<lists.length ;i++){
               lists[i].style.display = 'none'
