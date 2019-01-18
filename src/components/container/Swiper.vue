@@ -3,22 +3,22 @@
     <div class="wrapper"  id="top">
       <swiper>
         <swiper-slide>
-          <router-link to="/container/huati">
+          <router-link to="/huati">
             <div @click="gethuatiInfo" class="nav-title">热门话题</div>
           </router-link>
-          <router-link to="/container/keji">
+          <router-link to="/keji">
             <div @click="getkejiInfo" class="nav-title">科技话题</div>
           </router-link>
-          <router-link to="/container/kaifa">
+          <router-link to="/kaifa">
             <div @click="getkaifaInfo" class="nav-title">开发者咨询</div>
           </router-link>
-          <router-link to="/container/qukuai">
+          <router-link to="/qukuai">
             <div @click="getqukuaiInfo" class="nav-title">区块链快捷</div>
           </router-link>
         </swiper-slide>
 
         <swiper-slide>
-          <router-link to="/container/jobs">
+          <router-link to="/jobs">
             <div @click="getjobsInfo" class="nav-title">招聘行情</div>
           </router-link>
         </swiper-slide>

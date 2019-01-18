@@ -7,7 +7,7 @@
       </div>
     </div>
     <c-swiper></c-swiper>
-  <router-view/>
+  <!--<router-view/>-->
   </div>
 </template>
 

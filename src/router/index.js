@@ -14,26 +14,26 @@ export default new Router({
     {
       path: '/',
       name: 'huati',
-      component:huati,
+      component:huati,//根路由删除掉也没有影响
 
     },{
-      path:'/container/huati',
+      path:'/huati',
       name:'huati',
       component:huati,
     },{
-      path:'/container/keji',
+      path:'/keji',
       name:'keji',
       component:keji,
     },{
-      path:'/container/kaifa',
+      path:'/kaifa',
       name:'kaifa',
       component:kaifa,
     },{
-      path:'/container/qukuai',
+      path:'/qukuai',
       name:'qukuai',
       component:qukuai,
     },{
-      path:'/contanier/jobs',
+      path:'/jobs',
       name:'jobs',
       component:jobs,
     },
