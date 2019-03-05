@@ -31,9 +31,14 @@
       <jobs :jobs="jobsData"></jobs>
 
 
-      <div class="more">
-        <a href="#">加载更多</a>
-      </div>
+      <el-table
+        v-loading="this.$store.state.isShow"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        style="width: 100%">
+      </el-table>
+
     </div>
 
 
@@ -46,7 +51,6 @@
   import kaifa from '../container/kaifa'
   import qukuai from '../container/qukuai'
   import jobs from '../container/jobs'
-  import  axios from 'axios'
     export default {
       name: "CSwiper",
       components: {
@@ -71,6 +75,8 @@
           jobsDate:'',
 
           tur:true, //解决滚动条滚动到底部，ajax请求事件多次执行的bug， 条件判断+延迟执行    在事件执行之初，复活变量，事件执行完毕后 杀死变量。
+
+          loading: true
         }
       },
       methods: {
@@ -111,7 +117,7 @@
         },
 
         gethuatiInfo() {
-          axios.get('https://api.readhub.cn/topic?lastCursor='+this.order+'&pageSize=20').then(this.gethuatiSucc)
+          this.axios.get('topic?lastCursor='+this.order+'&pageSize=20').then(this.gethuatiSucc)
         //  请求中附带参数this.order，使滚动条滑动到底部就会再次发送请求，实现动态加载的功能
         },
         gethuatiSucc(res) {
@@ -133,7 +139,7 @@
           }
         },
         getkejiInfo() {
-          axios.get('https://api.readhub.cn/news?lastCursor='+this.kejiDate+'&pageSize=10').then(this.getkejiSucc)
+          this.axios.get('news?lastCursor='+this.kejiDate+'&pageSize=10').then(this.getkejiSucc)
         },
         getkejiSucc(res) {
           res = res.data
@@ -157,7 +163,7 @@
           }
         },
         getkaifaInfo() {
-          axios.get('https://api.readhub.cn/technews?lastCursor='+this.kaifaDate+'&pageSize=10').then(this.getkaifaSucc)
+          this.axios.get('technews?lastCursor='+this.kaifaDate+'&pageSize=10').then(this.getkaifaSucc)
         },
         getkaifaSucc(res) {
           res = res.data
@@ -179,7 +185,7 @@
           }
         },
         getqukuaiInfo() {
-          axios.get('https://api.readhub.cn/blockchain?lastCursor='+this.qukuaiDate+'&pageSize=10').then(this.getkaifaSucc)
+          this.axios.get('blockchain?lastCursor='+this.qukuaiDate+'&pageSize=10').then(this.getqukuaiSucc)
         },
         getqukuaiSucc(res) {
           res = res.data
@@ -201,7 +207,7 @@
           }
         },
         getjobsInfo() {
-          axios.get('https://api.readhub.cn/jobs?lastCursor='+this.jobsDate+'&pageSize=10').then(this.getjobsSucc)
+          this.axios.get('jobs?lastCursor='+this.jobsDate+'&pageSize=10').then(this.getjobsSucc)
         },
         getjobsSucc(res) {
           res = res.data

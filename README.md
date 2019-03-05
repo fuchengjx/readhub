@@ -85,7 +85,20 @@ showList:function (index) {
  但是，使用`ref`标注的钩子不能使用短横线命名法，boxAlpha不等于box-alpha，在JS中用box-alpha也会报非法。所以，
  ref属性统一使用驼峰命名法
 
-4.更多功能以后期待
+4.引入了loading组件， 运用了vuex，axios拦截器实现loading效果。 每次发送ajax之前，loading显现， 数据返回后，loading隐藏。 ps：注意全局import store.js文件，vue引入文件的话 没有’./‘类似的相对路径标识符，node就会去node_modules中去找，但是Vue源码很明显是在本地文件夹找的。 所以引入当前文件夹的文件 import Vue from './web-runtime' .    ps: 注意store.js里 new Vuex.Stotre时 ，store这里的一定要大写,就相当于我们在使用构造函数(类)的时候首字母要大写。
+
+```
+axios.interceptors.request.use(function (config) {
+  store.state.isShow = true//在请求发出之前进行一些操作 loading载入
+  return config
+})
+axios.interceptors.response.use(function(config){
+  store.state.isShow = false //在这里对返回的数据进行处理 loading关闭
+  return config
+})
+```
+
+![](http://github.com/fuchengjx/readhub/raw/master/images/loading.png)
 
 ## Build Setup
 
