@@ -38,11 +38,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       ? { warnings: false, errors: true }
       : false,
     publicPath: config.dev.assetsPublicPath,
-    proxy: config.dev.proxyTable,
+    proxy: {
+        // '/#/': {
+        //   target: 'https://api.readhub.cn', // 你接口的域名
+        //   pathRewrite: {'^/#/' : ''},
+        //   secure: false, // 如果是https接口，需要配置这个参数
+        //   changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
+        // }
+    },
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+
   },
   plugins: [
     new webpack.DefinePlugin({

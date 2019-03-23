@@ -53,7 +53,7 @@ window.onsroll=function(){
           tur=ture
         },500)
     },
-    ture=false;
+    tur=false;
 }
 // 在事件执行之初，复活变量，事件执行完毕后 杀死变量。
 ```
