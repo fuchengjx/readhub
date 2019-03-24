@@ -1,6 +1,6 @@
 <template>
   <div class="itemList">
-    <div class="table" v-for="item of keji">
+    <div class="table" v-for="item of data">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
         <p class="item-summary">{{item.summaryAuto}}</p>
@@ -16,23 +16,13 @@
     export default {
         name: "keji",
         props:{
-          keji:Array
+          data: Array
         },
       data(){
         return{
           show:false,
         }
       },
-      methods:{
-          showData(){
-           this.show=this.keji;
-          }
-      },
-      mounted(){
-          // console.log(this.keji.length)
-          // console.log(this.keji)
-          this.showData();
-      }
     }
 </script>
 

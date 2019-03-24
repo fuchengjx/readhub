@@ -1,7 +1,7 @@
 <template>
   <!--开发者内容渲染-->
   <div class="itemList">
-    <div class="table" v-for="item of kaifa">
+    <div class="table" v-for="item of data">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
         <p class="item-summary">{{item.summaryAuto}}</p>
@@ -17,7 +17,7 @@
     export default {
         name: "kaifa",
         props:{
-          kaifa:Array
+         data: Array
         }
     }
 </script>

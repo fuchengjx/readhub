@@ -1,5 +1,4 @@
 <template>
-
     <div class="wrapper"  id="top">
       <swiper>
         <swiper-slide>
@@ -23,13 +22,7 @@
           </router-link>
         </swiper-slide>
       </swiper>
-
-      <huati :huati="huatiData"></huati>
-      <keji :keji="kejiData"></keji>
-      <kaifa :kaifa="kaifaData"></kaifa>
-      <qukuai :qukuai="qukuaiData"></qukuai>
-      <jobs :jobs="jobsData"></jobs>
-
+      <component v-bind:is="tab[index].name" :data="tab[index].data"></component>
 
       <el-table
         v-loading="this.$store.state.isShow"
@@ -40,8 +33,6 @@
       </el-table>
 
     </div>
-
-
 
 </template>
 
@@ -62,18 +53,28 @@
       },
       data() {
         return {
-          huatiData: [],
-          kejiData: [],
-          kaifaData: [],
-          qukuaiData: [],
-          jobsData: [],
-
-          order:'',
+          index : 0,
+          tab: [{
+            name: huati,
+            data: [],
+          },{
+            name: keji,
+            data: [],
+          }, {
+            name: kaifa,
+            data: [],
+          }, {
+            name: qukuai,
+            data: [],
+          }, {
+            name: jobs,
+            data: [],
+          }],
+          order:'', //huatiDate
           kejiDate:'',
           kaifaDate:'',
           qukuaiDate:'',
           jobsDate:'',
-
           tur:true, //解决滚动条滚动到底部，ajax请求事件多次执行的bug， 条件判断+延迟执行    在事件执行之初，复活变量，事件执行完毕后 杀死变量。
 
           loading: true
@@ -87,24 +88,23 @@
               if(Math.ceil(window.screen.height + document.documentElement.scrollTop)>=document.body.clientHeight)
               {
                 console.log('滚动条已滚动到底部');
-                if(this.huatiData.length!==0){
+                if(this.index === 0){
                   //只有huatiData的长度不为零，才会继续发送带参数的ajax请求。
                   //解决其他页面滑动到底部也会加载huatidata的bug
                   this.gethuatiInfo();
                 }
-                if(this.kejiData.length!==0){
+                if(this.index === 1){
                   this.getkejiInfo();
                 }
-                if(this.kaifaData.length!==0){
+                if(this.index === 2){
                   this.getkaifaInfo();
                 }
-                if(this.qukuaiData.length!==0){
+                if(this.index === 3){
                   this.getqukuaiInfo();
                 }
-                if (this.jobsData.length!==0){
+                if (this.index === 4){
                   this.getjobsInfo();
                 }
-
               }
               this.tur=true;
             },500)
@@ -113,126 +113,106 @@
           // console.log(window.screen.height + document.documentElement.scrollTop)
           // console.log('CH'+document.body.clientHeight)
                 this.tur=false
-
         },
 
         gethuatiInfo() {
+          this.index = 0;
           this.axios.get('topic?lastCursor='+this.order+'&pageSize=20').then(this.gethuatiSucc)
         //  请求中附带参数this.order，使滚动条滑动到底部就会再次发送请求，实现动态加载的功能
         },
         gethuatiSucc(res) {
           res = res.data
           if (res) {
-            if(this.huatiData.length){
+            if(this.tab[this.index].data.length){
               //将获取到的新数组一个一个添加到huatiData数组中，方便子组件动态渲染。
-              for (let i=0;i<res.data.length;i++){
-                this.huatiData.push(res.data[i])
+              for (let i=0; i<res.data.length; i++){
+                this.tab[this.index].data.push(res.data[i])
               }
             }else {
-              this.huatiData = res.data
+              this.tab[this.index].data = res.data
             }
-            this.order=res.data[0].order;
-            this.kejiData=[];
-            this.kaifaData=[];
-            this.qukuaiData=[];
-            this.jobsData=[];
+            this.order = res.data[0].order;
           }
         },
         getkejiInfo() {
+          this.index = 1;
           this.axios.get('news?lastCursor='+this.kejiDate+'&pageSize=10').then(this.getkejiSucc)
         },
         getkejiSucc(res) {
           res = res.data
           if (res.data) {
-            if(this.kejiData.length){
+            if(this.tab[this.index].data.length){
               for(let i=0;i<res.data.length;i++){
-                this.kejiData.push(res.data[i])
+                this.tab[this.index].data.push(res.data[i])
               }
             }else {
-              this.kejiData=res.data;
+              this.tab[this.index].data = res.data;
             }
             //获取返回数据里的时间，将起转化为时间戳，作为ajax参数，继续请求。
-            let strtime=res.data[res.data.length-1].publishDate;
-            this.kejiDate=Date.parse(strtime);
-            // console.log(this.kejidata)
-            this.huatiData=[];
-            this.kaifaData=[];
-            this.qukuaiData=[];
-            this.jobsData=[];
-
+            let strtime = res.data[res.data.length-1].publishDate;
+            this.kejiDate = Date.parse(strtime);
           }
         },
         getkaifaInfo() {
+          this.index = 2;
           this.axios.get('technews?lastCursor='+this.kaifaDate+'&pageSize=10').then(this.getkaifaSucc)
         },
         getkaifaSucc(res) {
           res = res.data
           if (res.data) {
-            if(this.kaifaData.length){
+            if(this.tab[this.index].data.length){
               for(let i=0;i<res.data.length;i++){
-                this.kaifaData.push(res.data[i])
+                this.tab[this.index].data.push(res.data[i])
               }
             }else {
-              this.kaifaData=res.data
+              this.tab[this.index].data = res.data
             }
-            let strtime=res.data[res.data.length-1].publishDate;
-            this.kaifaDate=Date.parse(strtime);
-
-            this.huatiData=[];
-            this.kejiData=[];
-            this.qukuaiData=[];
-            this.jobsData=[];
+            let strtime = res.data[res.data.length-1].publishDate;
+            this.kaifaDate = Date.parse(strtime);
           }
         },
         getqukuaiInfo() {
+          this.index = 3;
           this.axios.get('blockchain?lastCursor='+this.qukuaiDate+'&pageSize=10').then(this.getqukuaiSucc)
         },
         getqukuaiSucc(res) {
           res = res.data
           if (res.data) {
-            if(this.qukuaiData.length){
+            if(this.tab[this.index].data.length){
               for(let i=0;i<res.data.length;i++){
-                this.qukuaiData.push(res.data[i])
+                this.tab[this.index].data.push(res.data[i])
               }
             }else {
-              this.qukuaiData=res.data
+              this.tab[this.index].data = res.data
             }
-            let strtime=res.data[res.data.length-1].publishDate;
-            this.qukuaiDate=Date.parse(strtime);
-
-            this.huatiData=[];
-            this.kaifaData=[];
-            this.kejiData=[];
-            this.jobsData=[];
+            let strtime = res.data[res.data.length-1].publishDate;
+            this.qukuaiDate = Date.parse(strtime);
           }
         },
         getjobsInfo() {
+          this.index = 4;
           this.axios.get('jobs?lastCursor='+this.jobsDate+'&pageSize=10').then(this.getjobsSucc)
         },
         getjobsSucc(res) {
           res = res.data
           if (res.data) {
-            if(this.jobsData.length){
+            if(this.tab[this.index].data.length){
               for(let i=0;i<res.data.length;i++){
-                this.jobsData.push(res.data[i])
+                this.tab[this.index].data.push(res.data[i])
               }
             }else {
-              this.jobsData=res.data
+              this.tab[this.index].data = res.data
             }
-            let strtime=res.data[res.data.length-1].publishDate;
-            this.jobsDate=Date.parse(strtime);
-
-            this.huatiData=[];
-            this.kaifaData=[];
-            this.qukuaiData=[];
-            this.kejiData=[];
+            let strtime = res.data[res.data.length-1].publishDate;
+            this.jobsDate = Date.parse(strtime);
           }
         },
 
-
+      },
+      created() {
+        this.gethuatiInfo();
       },
       mounted(){
-        this.gethuatiInfo();
         //全局绑定scroll事件，只要有滚动，就执行men函数
         window.addEventListener('scroll', this.menu);
       }

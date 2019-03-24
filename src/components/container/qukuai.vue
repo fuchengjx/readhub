@@ -1,7 +1,7 @@
 <template>
   <div class="itemList">
     <!--区块链内容渲染-->
-    <div class="table" v-for="item of qukuai">
+    <div class="table" v-for="item of data">
       <a class="item-a" :href="item.url">
         <p class="item-title">{{item.title}}</p>
         <p class="item-summary">{{item.summaryAuto}}</p>
@@ -16,7 +16,7 @@
     export default {
         name: "qukuai",
         props:{
-          qukuai:Array
+          data: Array
       }
     }
 </script>

@@ -1,10 +1,10 @@
 <template>
-    <div v-show="jobs.length" class="itemList">
+    <div v-show="data.length" class="itemList">
       <div class="today">
         <span>今天</span>
       </div>
       <!--详细工作内容栏-->
-      <div class="table" v-for="(item,index) of jobs"  @click="showList(index)">
+      <div class="table" v-for="(item,index) of data"  @click="showList(index)">
         <p class="item-title">{{item.jobTitle}}</p>
         <p class="jobsTitle">{{item.jobsArray[0].title}} · {{item.jobsArray[1].title}} · {{item.jobsArray[2].title}} · {{item.jobsArray[3].title}}</p>
         <p class="jobsContent">{{Object.keys(item.cities)[0]}}、{{Object.keys(item.cities)[1]}}等地更新了{{item.jobCount}}个职位，待遇集中在
@@ -67,20 +67,18 @@
     export default {
         name: "jobs",
         props:{
-          jobs:Array
+          data: Array
         },
-      data(){
-          return{
-              show:false,
-          }
-      },
+
       methods:{
           showList:function (index) {
             let lists = this.$refs.jobsList
-            for(let i = 0; i<lists.length ;i++){
-              lists[i].style.display = 'none'
+            if(lists[index].style.display === ''|| lists[index].style.display === 'none'){
+              for(let i = 0; i<lists.length ;i++){ //排他算法
+                lists[i].style.display = 'none'
+              }
+              lists[index].style.display = 'block'
             }
-            lists[index].style.display = 'block'
           },
       },
     }
