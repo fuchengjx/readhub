@@ -4,7 +4,7 @@
         <span>今天</span>
       </div>
       <!--详细工作内容栏-->
-      <div class="table" v-for="(item,index) of data"  @click="showList(index)">
+      <div class="table" v-for="(item,index) of data"  @click="showList(index)" v-bind:key="index">
         <p class="item-title">{{item.jobTitle}}</p>
         <p class="jobsTitle">{{item.jobsArray[0].title}} · {{item.jobsArray[1].title}} · {{item.jobsArray[2].title}} · {{item.jobsArray[3].title}}</p>
         <p class="jobsContent">{{Object.keys(item.cities)[0]}}、{{Object.keys(item.cities)[1]}}等地更新了{{item.jobCount}}个职位，待遇集中在
