@@ -13,16 +13,10 @@
 </template>
 
 <script>
+import mixin from '../mixins/list';
     export default {
         name: "keji",
-        props:{
-          data: Array
-        },
-      data(){
-        return{
-          show:false,
-        }
-      },
+        mixins: [mixin],
     }
 </script>
 

@@ -12,11 +12,10 @@
 </template>
 
 <script>
+import mixin from '../mixins/list';
     export default {
       name: "huati",
-      props:{
-        data: Array,
-      },
+      mixins: [mixin]
     }
 </script>
 

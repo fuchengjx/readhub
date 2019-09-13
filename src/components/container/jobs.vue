@@ -64,12 +64,10 @@
 </template>
 
 <script>
+import mixin from '../mixins/list'
     export default {
-        name: "jobs",
-        props:{
-          data: Array
-        },
-
+      name: "jobs",
+      mixins: [mixin],
       methods:{
           showList:function (index) {
             let lists = this.$refs.jobsList
