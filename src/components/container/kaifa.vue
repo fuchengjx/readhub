@@ -9,7 +9,6 @@
         <span class="item-name">{{item.siteName}}</span>
       </a>
     </div>
-
   </div>
 </template>
 
