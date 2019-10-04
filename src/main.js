@@ -18,7 +18,7 @@ import axios from 'axios' //全局引入axios
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios,axios)  //axios在Vue实例全局挂载
 
-axios.defaults.baseURL = 'https://api.readhub.cn/'
+axios.defaults.baseURL = 'https://api.readhub.cn/api/'
 
 axios.interceptors.request.use(function (config) {
   store.state.isShow = true//在请求发出之前进行一些操作 loading载入
